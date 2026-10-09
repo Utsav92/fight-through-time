@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIGHT THROUGH TIME — Interactive 4D Motion Sculpture</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 3D WebGL Canvas Container -->
+  <div id="canvas-container"></div>
+
+  <!-- Header Overlay -->
+  <header class="hud-header">
+    <div class="title-group">
+      <div class="badge">4D MOTION SCULPTURE</div>
+      <h1>FIGHT THROUGH TIME</h1>
+      <p class="subtitle">Bruce Lee vs. Chuck Norris &mdash; Roman Colosseum (1972) &mdash; Continuous Wide Sequence</p>
+    </div>
+    <div class="header-right">
+      <div class="interaction-mode-pill">
+        <span class="mode-label">NAV MODE:</span>
+        <button id="btn-mode-camera" class="mode-btn active" title="Orbit & inspect in 3D (Key: C)">CAMERA [C]</button>
+        <button id="btn-mode-time" class="mode-btn" title="Drag mouse to scrub 4th Dimension (Key: T)">TIME [T]</button>
+        <button id="btn-mode-4d" class="mode-btn" title="Combined 4D Navigation">4D NAV</button>
+      </div>
+      <button id="btn-help" class="icon-btn" title="Keyboard Shortcuts & Guide">?</button>
+    </div>
+  </header>
+
+  <!-- Left Telemetry & Controls Panel -->
+  <aside class="hud-panel left-panel">
+    <div class="panel-section">
+      <div class="section-title">TEMPORAL METRICS</div>
+      <div class="metric-row">
+        <span class="m-label">FRAME:</span>
+        <span class="m-val" id="val-frame">420 / 530</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-label">SRC TIME:</span>
+        <span class="m-val" id="val-time">16.80 s</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-label">4D CURSOR:</span>
+        <span class="m-val" id="val-cursor">0.353</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-label">ACTIVE ACTION:</span>
+        <span class="m-val highlight" id="val-action">KICK EXTENSION</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-title">4D TIME PARAMETERS</div>
+      
+      <div class="control-group">
+        <div class="control-label">
+          <span>HISTORY STATES</span>
+          <span class="c-val" id="lbl-history">7</span>
+        </div>
+        <input type="range" id="slider-history" min="2" max="10" value="7" step="1">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">
+          <span>POSE DELAY</span>
+          <span class="c-val" id="lbl-delay">0.40s (10f)</span>
+        </div>
+        <input type="range" id="slider-delay" min="0.10" max="1.00" value="0.40" step="0.05">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">
+          <span>TIME DEPTH</span>
+          <span class="c-val" id="lbl-depth">1.50</span>
+        </div>
+        <input type="range" id="slider-depth" min="0.0" max="5.0" value="1.5" step="0.1">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">
+          <span>TIME WINDOW</span>
+          <span class="c-val" id="lbl-window">2.40s</span>
+        </div>
+        <input type="range" id="slider-window" min="0.5" max="4.0" value="2.4" step="0.1">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-title">VISUAL REPRESENTATION</div>
+      <div class="btn-grid">
+        <button class="vis-btn" data-mode="BODY">BODY</button>
+        <button class="vis-btn" data-mode="GHOST">GHOST</button>
+        <button class="vis-btn" data-mode="POINT_CLOUD">POINTS</button>
+        <button class="vis-btn" data-mode="TRAJECTORY">TRAJ</button>
+        <button class="vis-btn active" data-mode="HYBRID">HYBRID</button>
+      </div>
+
+      <div class="toggle-list">
+        <label class="toggle-item">
+          <input type="checkbox" id="chk-bodies" checked>
+          <span>Show Fighter Bodies</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="chk-points" checked>
+          <span>Show Particle Dispersion</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="chk-trajectories" checked>
+          <span>Show Limb Trajectories</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="chk-impacts" checked>
+          <span>Show Contact Shockwaves</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-title">FIGHTER CHROMATICS</div>
+      <div class="color-picker-row">
+        <div class="color-item">
+          <label for="col-fighter-a">FIGHTER A (Lee):</label>
+          <input type="color" id="col-fighter-a" value="#00e5ff">
+        </div>
+        <div class="color-item">
+          <label for="col-fighter-b">FIGHTER B (Norris):</label>
+          <input type="color" id="col-fighter-b" value="#ff9100">
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Perspective / Action Jump Panel -->
+  <aside class="hud-panel right-panel">
+    <div class="panel-section">
+      <div class="section-title">CAMERA PERSPECTIVE</div>
+      <div class="cam-presets">
+        <button class="cam-btn" data-angle="0">0° CHRONO</button>
+        <button class="cam-btn" data-angle="30">30° OBLIQUE</button>
+        <button class="cam-btn active" data-angle="45">45° SCULPTURE</button>
+        <button class="cam-btn" data-angle="75">75° TIME PROFILE</button>
+        <button class="cam-btn" data-angle="90">90° DEPTH AXIS</button>
+      </div>
+      <button id="btn-cam-reset" class="action-btn-small">RESET CAMERA</button>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-title">KEY COMBAT MOMENTS</div>
+      <div class="action-jump-list" id="action-jump-container">
+        <!-- Injected via JavaScript from telemetry -->
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-title">TEMPORAL OPACITY LADDER</div>
+      <div class="opacity-ladder">
+        <div class="ladder-step"><span class="step-lbl">NOW (T-0)</span><span class="step-val">100% SOLID</span></div>
+        <div class="ladder-step"><span class="step-lbl">HIST 1 (-0.4s)</span><span class="step-val">82% SPLATS</span></div>
+        <div class="ladder-step"><span class="step-lbl">HIST 2 (-0.8s)</span><span class="step-val">68% DENSE PTS</span></div>
+        <div class="ladder-step"><span class="step-lbl">HIST 3 (-1.2s)</span><span class="step-val">55% PARTICLES</span></div>
+        <div class="ladder-step"><span class="step-lbl">HIST 4 (-1.6s)</span><span class="step-val">43% FIBERS</span></div>
+        <div class="ladder-step"><span class="step-lbl">HIST 5 (-2.0s)</span><span class="step-val">32% DUST</span></div>
+        <div class="ladder-step"><span class="step-lbl">HIST 6 (-2.4s)</span><span class="step-val">22% ETHER</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Bottom 4D Time Axis Controller -->
+  <footer class="hud-footer">
+    <!-- Action Markers Bar on top of timeline -->
+    <div class="timeline-annotations-track" id="timeline-annotations"></div>
+
+    <!-- The 4D TIME AXIS Arrow -->
+    <div class="time-axis-container" id="time-axis-container">
+      <div class="axis-guide-label past">PAST ◀</div>
+      <div class="axis-rail" id="axis-rail">
+        <div class="axis-progress" id="axis-progress"></div>
+        <!-- Historical Pose Markers Along Rail -->
+        <div class="history-markers-layer" id="history-markers-layer"></div>
+        <!-- Draggable 4D Time Cursor Handle -->
+        <div class="axis-cursor" id="axis-cursor" title="Drag to traverse the 4th Dimension (TIME)">
+          <div class="cursor-glow"></div>
+          <div class="cursor-stem"></div>
+          <div class="cursor-node">
+            <span class="cursor-icon">●</span>
+            <span class="cursor-tooltip" id="cursor-tooltip">NOW</span>
+          </div>
+        </div>
+      </div>
+      <div class="axis-guide-label future">▶ FUTURE</div>
+    </div>
+
+    <!-- Playback & Navigation Controls Bar -->
+    <div class="controls-bar">
+      <div class="playback-buttons">
+        <button id="btn-first" class="ctrl-btn" title="First Frame (Home)">|◀</button>
+        <button id="btn-prev-10" class="ctrl-btn" title="-10 Frames (Shift+Left)">◀◀ 10</button>
+        <button id="btn-prev-frame" class="ctrl-btn primary" title="Previous Frame (Left Arrow)">◀ FRAME</button>
+        
+        <button id="btn-play" class="ctrl-btn primary-action" title="Play / Pause (Space)">PLAY</button>
+        <button id="btn-reverse" class="ctrl-btn" title="Reverse Playback (R)">REVERSE</button>
+        <button id="btn-freeze" class="ctrl-btn highlight-freeze" title="Freeze 4D Time & Orbit (F)">FREEZE 4D</button>
+        
+        <button id="btn-next-frame" class="ctrl-btn primary" title="Next Frame (Right Arrow)">FRAME ▶</button>
+        <button id="btn-next-10" class="ctrl-btn" title="+10 Frames (Shift+Right)">10 ▶▶</button>
+        <button id="btn-last" class="ctrl-btn" title="Last Frame (End)">▶|</button>
+      </div>
+
+      <div class="speed-selector">
+        <span class="speed-lbl">SPEED:</span>
+        <button class="spd-btn" data-speed="0.25">0.25×</button>
+        <button class="spd-btn" data-speed="0.5">0.5×</button>
+        <button class="spd-btn active" data-speed="1.0">1.0×</button>
+        <button class="spd-btn" data-speed="2.0">2.0×</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Help & Shortcut Modal -->
+  <div id="modal-help" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>4D MOTION SCULPTURE GUIDE</h2>
+        <button id="btn-close-help" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">
+          <strong>Space is navigated with the camera. Time is navigated with the arrow.</strong>
+          This interactive viewer transforms 2D combat film into a true 4D space-time continuum ($X + Y + \text{TIME} \rightarrow X + Y + Z$).
+        </p>
+        <div class="shortcut-grid">
+          <div class="sc-item"><kbd>Left Drag</kbd><span>Orbit Camera around 4D sculpture</span></div>
+          <div class="sc-item"><kbd>Right Drag</kbd><span>Pan Camera</span></div>
+          <div class="sc-item"><kbd>Scroll Wheel</kbd><span>Zoom in / out through temporal depth</span></div>
+          <div class="sc-item"><kbd>Arrow Drag</kbd><span>Drag <strong>TIME AXIS</strong> to scrub 4th dimension</span></div>
+          <div class="sc-item"><kbd>←</kbd> / <kbd>→</kbd><span>Step exactly &plusmn;1 source frame</span></div>
+          <div class="sc-item"><kbd>Shift</kbd> + <kbd>←</kbd>/<kbd>→</kbd><span>Jump &plusmn;10 frames</span></div>
+          <div class="sc-item"><kbd>Space</kbd><span>Play / Pause continuous playback</span></div>
+          <div class="sc-item"><kbd>R</kbd><span>Reverse playback</span></div>
+          <div class="sc-item"><kbd>F</kbd><span><strong>FREEZE 4D</strong> (inspect static temporal volume)</span></div>
+          <div class="sc-item"><kbd>T</kbd><span>Toggle <strong>TIME MODE</strong></span></div>
+          <div class="sc-item"><kbd>C</kbd><span>Toggle <strong>CAMERA MODE</strong></span></div>
+          <div class="sc-item"><kbd>Home</kbd> / <kbd>End</kbd><span>Jump to sequence beginning / end</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Standalone Three.js and OrbitControls Scripts -->
+  <script src="three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Intermediate neural segmentation frames & caches
+data/
+data_dp/
+render_frames/
+web/data/
+*.task
+__pycache__/
+*.pyc
+.system_generated/
+*.log
+samples/
