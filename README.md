@@ -8,22 +8,16 @@ Transform combat video footage into clean **4D space-time motion sculptures** wh
 
 ## 📽️ Delivered 4D Motion Sculpture Videos
 
-This repository contains the complete 4D video deliverables:
+### 📱 9:16 Vertical Instagram Reels Editions (1080×1920 Full HD)
+1. **[`DEADPOOL_WOLVERINE_4D_MULTI_EFFECTS_REELS_9x16.mp4`](https://github.com/Utsav92/fight-through-time/blob/main/DEADPOOL_WOLVERINE_4D_MULTI_EFFECTS_REELS_9x16.mp4)** (1080×1920, 25 FPS, 405 frames / 16.20s, 15.5 MB)
+   - Vertical mobile framing with safe zones, diagonal space-time cascade across 6 temporal styles.
+2. **[`BRUCE_LEE_4D_MULTI_EFFECTS_REELS_9x16.mp4`](https://github.com/Utsav92/fight-through-time/blob/main/BRUCE_LEE_4D_MULTI_EFFECTS_REELS_9x16.mp4)** (1080×1920, 25 FPS, 400 frames / 16.00s, 7.5 MB)
+   - Vertical mobile composition for Bruce Lee vs. Chuck Norris colosseum duel across 6 temporal styles.
 
-1. **`DEADPOOL_WOLVERINE_4D_MULTI_EFFECTS.mp4`** (1280×720, 25 FPS, 405 frames / 16.20s)
-   - Features **6 distinct temporal states**, transitioning from realism into 5 progressive computer-vision / VFX paradigms:
-     - **Frame 1 (Present / Lead Fighters)**: **Original Photorealism** (100% opacity, raw combat video)
-     - **Frame 2 ($T - 0.4\text{s}$)**: **Holographic** (cyan scanline interference, chromatic fringe, outer luminescence)
-     - **Frame 3 ($T - 0.8\text{s}$)**: **Thermal Heatmap** (FLIR/Turbo colormap tracking kinetic energy)
-     - **Frame 4 ($T - 1.2\text{s}$)**: **LiDAR Point Cloud** (laser elevation grid with horizontal scanner sweeps)
-     - **Frame 5 ($T - 1.6\text{s}$)**: **3D Gaussian Splatting** (oriented elliptical radiance particles with floating satellite splats)
-     - **Frame 6 ($T - 2.0\text{s}$)**: **Metaball Fluid Blob** (SDF plasma energy mass with concentric equipotential contour rings)
-
-2. **`DEADPOOL_WOLVERINE_4D_MOTION_SCULPTURE.mp4`** (1280×720, 25 FPS, 405 frames / 16.20s)
-   - Full 16.2s sequence with 7 temporal states, character chromatic auras (Crimson for Deadpool, Amber Gold for Wolverine), and 5-act camera reveal ($0^\circ \to 45^\circ \to 70^\circ \to \text{Freeze-Frame Orbit} \to \text{Resolution}$).
-
-3. **`FIGHT_THROUGH_TIME_4D_MOTION_SCULPTURE.mp4`** (1280×720, 25 FPS, 400 frames / 16.00s)
-   - Bruce Lee vs. Chuck Norris colosseum combat transformed into a 4D chronophotographic depth sculpture.
+### 🖥️ 16:9 Landscape Cinematic Editions (1280×720 HD)
+3. **`DEADPOOL_WOLVERINE_4D_MULTI_EFFECTS.mp4`** (1280×720, 25 FPS, 405 frames / 16.20s, 13.6 MB)
+4. **`DEADPOOL_WOLVERINE_4D_MOTION_SCULPTURE.mp4`** (1280×720, 25 FPS, 405 frames / 16.20s, 8.8 MB)
+5. **`FIGHT_THROUGH_TIME_4D_MOTION_SCULPTURE.mp4`** (1280×720, 25 FPS, 400 frames / 16.00s, 4.0 MB)
 
 ---
 
